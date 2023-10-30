@@ -1,12 +1,12 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, View, Text } from "react-native";
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 export default function UserProfile() {
     const router = useRouter();
     const [mail, setMail] = useState([]);
-    const auth = getAuth();
 
     useEffect(() => {
         console.log(auth.currentUser.email);
