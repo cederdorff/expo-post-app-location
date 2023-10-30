@@ -1,10 +1,6 @@
-// Import the functions you need from the SDKs you need
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
-import {
-    getReactNativePersistence,
-    initializeAuth
-} from "firebase/auth/react-native";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,10 +13,8 @@ const firebaseConfig = {
     appId: "1:585666076188:web:2d11018cf35a20aaa3c9d9"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and export
-export const auth = initializeAuth(app, {
+const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
 });
