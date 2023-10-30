@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Text, View, TextInput, StyleSheet, Button } from "react-native";
+import { Stack, useRouter } from "expo-router";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, Stack, useRouter } from "expo-router";
+import { useState } from "react";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function SignIn() {
     const [mail, setMail] = useState("");
@@ -57,11 +57,7 @@ export default function SignIn() {
                 placeholder="Type your password"
             />
             <Button title="Sign In" color="#264c59" onPress={handleSignIn} />
-            <Button
-                title="Create new account"
-                color="#264c59"
-                onPress={goToSignUp}
-            />
+            <Button title="Create new account" color="#264c59" onPress={goToSignUp} />
             <Text style={styles.errorMessage}>{message}</Text>
         </View>
     );
