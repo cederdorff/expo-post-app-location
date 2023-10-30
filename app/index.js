@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import "../firebase-config";
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 export default function AppRoot() {
     const router = useRouter();
-    const auth = getAuth();
 
     onAuthStateChanged(auth, user => {
         console.log(user);
