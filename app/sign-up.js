@@ -52,11 +52,7 @@ export default function SignUp() {
                 secureTextEntry={true}
                 placeholder="Type your password"
             />
-            <Button
-                title="Create account"
-                color="#264c59"
-                onPress={handleSignUp}
-            />
+            <Button title="Create account" color="#264c59" onPress={handleSignUp} />
             <Text style={styles.errorMessage}>{message}</Text>
         </View>
     );
