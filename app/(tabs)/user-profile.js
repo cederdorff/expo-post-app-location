@@ -33,6 +33,7 @@ export default function UserProfile() {
             />
             <View>
                 <Text>{mail}</Text>
+                <Button title="Sign Out" color="#264c59" onPress={handleSignOut} />
             </View>
         </View>
     );
