@@ -4,7 +4,7 @@
         "web": {
             "bundler": "metro"
         },
-        "name": "expo-modal-tab-nav",
-        "slug": "expo-modal-tab-nav"
+        "name": "expo-post-app-location",
+        "slug": "expo-post-app-location"
     }
 }
