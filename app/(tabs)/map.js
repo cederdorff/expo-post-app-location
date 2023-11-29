@@ -6,7 +6,8 @@ import MapView, { Marker } from "react-native-maps";
 export default function Map() {
     const router = useRouter();
     const [posts, setPosts] = useState([]);
-    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
+    const API_URL =
+        "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         getPosts();
@@ -28,7 +29,9 @@ export default function Map() {
             id: key,
             ...dataObj[key]
         })); // from object to array
-        postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+        postsArray.sort(
+            (postA, postB) => postB.createdAt - postA.createdAt
+        ); // sort by timestamp/ createdBy
         setPosts(postsArray);
     }
 
@@ -40,6 +43,7 @@ export default function Map() {
                         key={post.id}
                         coordinate={post.location}
                         title={post.caption}
+                        onPress={() => router.push(`/${post.id}`)}
                     />
                 ))}
             </MapView>
