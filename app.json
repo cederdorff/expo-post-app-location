@@ -5,6 +5,14 @@
             "bundler": "metro"
         },
         "name": "expo-post-app-location",
-        "slug": "expo-post-app-location"
+        "slug": "expo-post-app-location",
+        "plugins": [
+            [
+                "expo-location",
+                {
+                    "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+                }
+            ]
+        ]
     }
 }

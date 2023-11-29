@@ -7,9 +7,12 @@ export default function AppLayout() {
             <StatusBar style="light" />
 
             <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen
-                    name="(modals)/create"
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="(modals)/post-modal"
                     options={{
                         presentation: "modal",
                         headerTintColor: "#fff",
