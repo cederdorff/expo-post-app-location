@@ -16,7 +16,7 @@ import {
 import { auth } from "../../firebase-config";
 
 export default function PostModal() {
-    const { id, post } = useLocalSearchParams();
+    const { id } = useLocalSearchParams();
     const [caption, setCaption] = useState("");
     const [image, setImage] = useState("");
     const router = useRouter();
