@@ -1,16 +1,36 @@
-import { useFocusEffect, useRouter } from "expo-router";
+import * as Location from "expo-location";
+import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import MapView, { Marker, Callout } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
+import MapView from "react-native-maps";
+import MapMarker from "../../components/MapMarker";
 
 export default function Map() {
-    const router = useRouter();
     const [posts, setPosts] = useState([]);
+    const [location, setLocation] = useState({});
     const API_URL =
         "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         getPosts();
+    }, []);
+
+    useEffect(() => {
+        async function requestLocationPersmissions() {
+            const { status } =
+                await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                setErrorMsg(
+                    "Permission to access location was denied"
+                );
+                return;
+            }
+            const currentLocation =
+                await Location.getCurrentPositionAsync();
+            setLocation(currentLocation.coords);
+            console.log(location);
+        }
+        requestLocationPersmissions();
     }, []);
 
     // Sometimes we want to run side-effects when a screen is focused.
@@ -35,28 +55,11 @@ export default function Map() {
         setPosts(postsArray);
     }
 
-    function handleCalloutPress(id) {
-        router.push(`map/${id}`);
-    }
-
     return (
         <View style={styles.container}>
             <MapView style={styles.map}>
                 {posts.map(post => (
-                    <Marker key={post.id} coordinate={post.location}>
-                        <Callout
-                            onPress={() =>
-                                handleCalloutPress(post.id)
-                            }>
-                            <View style={styles.calloutView}>
-                                <Text>{post.caption}</Text>
-                                <Image
-                                    source={{ uri: post.image }}
-                                    style={styles.image}
-                                />
-                            </View>
-                        </Callout>
-                    </Marker>
+                    <MapMarker post={post} key={post.id} />
                 ))}
             </MapView>
         </View>
@@ -72,9 +75,5 @@ const styles = StyleSheet.create({
     map: {
         width: "100%",
         height: "100%"
-    },
-    calloutView: {
-        flex: 1
-    },
-    image: { height: 100, marginTop: 8 }
+    }
 });
