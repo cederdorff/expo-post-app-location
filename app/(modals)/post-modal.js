@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import { Stack, useRouter, useSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
     Button,
@@ -13,9 +13,10 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
+import { auth } from "../../firebase-config";
 
 export default function PostModal() {
-    const { id } = useSearchParams();
+    const { id, post } = useLocalSearchParams();
     const [caption, setCaption] = useState("");
     const [image, setImage] = useState("");
     const router = useRouter();
@@ -87,7 +88,7 @@ export default function PostModal() {
             image: image,
             createdAt: createdAt,
             location: await getLocation(),
-            uid: "fTs84KRoYw5pRZEWCq2Z"
+            uid: auth.currentUser.uid
         };
 
         console.log(post);

@@ -53,6 +53,7 @@ export default function TabLayout() {
                 name="map"
                 options={{
                     title: "Map",
+                    headerShown: false,
                     tabBarActiveTintColor: "#264c59",
                     tabBarInactiveTintColor: "#fff",
                     tabBarActiveBackgroundColor: "#acc6c9",
@@ -79,13 +80,6 @@ export default function TabLayout() {
                             color="white"
                         />
                     )
-                }}
-            />
-            <Tabs.Screen
-                name="[post]"
-                show={false}
-                options={{
-                    href: null
                 }}
             />
         </Tabs>

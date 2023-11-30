@@ -1,7 +1,7 @@
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, View, Text, Image } from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
 
 export default function Map() {
     const router = useRouter();
@@ -35,16 +35,28 @@ export default function Map() {
         setPosts(postsArray);
     }
 
+    function handleCalloutPress(id) {
+        router.push(`map/${id}`);
+    }
+
     return (
         <View style={styles.container}>
             <MapView style={styles.map}>
                 {posts.map(post => (
-                    <Marker
-                        key={post.id}
-                        coordinate={post.location}
-                        title={post.caption}
-                        onPress={() => router.push(`/${post.id}`)}
-                    />
+                    <Marker key={post.id} coordinate={post.location}>
+                        <Callout
+                            onPress={() =>
+                                handleCalloutPress(post.id)
+                            }>
+                            <View style={styles.calloutView}>
+                                <Text>{post.caption}</Text>
+                                <Image
+                                    source={{ uri: post.image }}
+                                    style={styles.image}
+                                />
+                            </View>
+                        </Callout>
+                    </Marker>
                 ))}
             </MapView>
         </View>
@@ -60,5 +72,9 @@ const styles = StyleSheet.create({
     map: {
         width: "100%",
         height: "100%"
-    }
+    },
+    calloutView: {
+        flex: 1
+    },
+    image: { height: 100, marginTop: 8 }
 });
