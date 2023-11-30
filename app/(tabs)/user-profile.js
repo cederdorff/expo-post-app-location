@@ -19,13 +19,12 @@ export default function UserProfile() {
         async function getUser() {
             const response = await fetch(url);
             const userData = await response.json();
-            console.log(userData);
 
             if (userData) {
                 // if userData exists set states with values from userData (data from firestore)
-                setName(userData.name);
-                setTitle(userData.title || "");
-                setImage(userData.image || imgPlaceholder);
+                setName(userData?.name);
+                setTitle(userData?.title);
+                setImage(userData?.image);
             }
         }
         getUser();
