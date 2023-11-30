@@ -14,11 +14,13 @@ import {
     View
 } from "react-native";
 import { auth } from "../../firebase-config";
+import { set } from "react-native-reanimated";
 
 export default function PostModal() {
     const { id } = useLocalSearchParams();
     const [caption, setCaption] = useState("");
     const [image, setImage] = useState("");
+    const [location, setLocation] = useState({});
     const router = useRouter();
 
     const API_URL =
@@ -49,7 +51,13 @@ export default function PostModal() {
                 return;
             }
         }
-        requestLocationPersmissions();
+
+        async function loadLocation() {
+            await requestLocationPersmissions();
+            setLocation(await getLocation());
+        }
+
+        loadLocation();
     }, []);
 
     function handleSave() {
@@ -74,10 +82,17 @@ export default function PostModal() {
     async function getLocation() {
         const currentLocation =
             await Location.getCurrentPositionAsync();
-        console.log(currentLocation);
+        const API_KEY = "d56227e5719542ec8aabe5c0bd2d502d";
+        const response = await fetch(
+            `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=${API_KEY}`
+        );
+        const data = await response.json();
+        console.log(data);
         return {
             latitude: currentLocation.coords.latitude,
-            longitude: currentLocation.coords.longitude
+            longitude: currentLocation.coords.longitude,
+            city: data.results[0].components.city,
+            country: data.results[0].components.country
         };
     }
 
@@ -87,7 +102,7 @@ export default function PostModal() {
             caption: caption,
             image: image,
             createdAt: createdAt,
-            location: await getLocation(),
+            location: location,
             uid: auth.currentUser.uid
         };
 
@@ -157,6 +172,12 @@ export default function PostModal() {
                     style={styles.input}
                     onChangeText={setCaption}
                     value={caption}
+                />
+                <Text style={styles.label}>City</Text>
+                <TextInput
+                    style={styles.input}
+                    value={`${location.city}, ${location.country}`}
+                    editable={false}
                 />
             </KeyboardAvoidingView>
         </View>
