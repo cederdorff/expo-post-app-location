@@ -1,20 +1,12 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import {
-    Alert,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
 
 export default function Post({ post, reload }) {
     const { showActionSheetWithOptions } = useActionSheet();
-    const API_URL =
-        "https://expo-post-app-default-rtdb.firebaseio.com";
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
     const router = useRouter();
 
     function formatDate(timestamp) {
@@ -68,24 +60,17 @@ export default function Post({ post, reload }) {
     }
 
     function showDeleteDialog() {
-        Alert.alert(
-            "Delete Post",
-            `Do you want to delete post '${post.caption}'?`,
-            [
-                {
-                    text: "No",
-                    style: "destructive"
-                },
-                { text: "Yes", onPress: deletePost }
-            ]
-        );
+        Alert.alert("Delete Post", `Do you want to delete post '${post.caption}'?`, [
+            {
+                text: "No",
+                style: "destructive"
+            },
+            { text: "Yes", onPress: deletePost }
+        ]);
     }
 
     async function deletePost() {
-        const response = await fetch(
-            `${API_URL}/posts/${post.id}.json`,
-            { method: "DELETE" }
-        );
+        const response = await fetch(`${API_URL}/posts/${post.id}.json`, { method: "DELETE" });
         if (response.ok) {
             console.log("Post deleted!");
             reload();
@@ -96,24 +81,18 @@ export default function Post({ post, reload }) {
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
                 <Avatar userId={post.uid} />
-                <TouchableOpacity
-                    style={styles.dots}
-                    onPress={showEditMenu}>
-                    <Ionicons
-                        name="ellipsis-horizontal"
-                        size={28}
-                        color="#264c59"
-                    />
+                <TouchableOpacity style={styles.dots} onPress={showEditMenu}>
+                    <Ionicons name="ellipsis-horizontal" size={28} color="#264c59" />
                 </TouchableOpacity>
             </View>
-            <Image
-                style={styles.image}
-                source={{ uri: post.image }}
-            />
+            <Image style={styles.image} source={{ uri: post.image }} />
             <Text style={styles.caption}>{post.caption}</Text>
-            <Text style={styles.date}>
-                {formatDate(post.createdAt)}
-            </Text>
+            {post.location.city ? (
+                <Text style={styles.city}>
+                    {post.location.city}, {post.location.country}
+                </Text>
+            ) : null}
+            <Text style={styles.date}>{formatDate(post.createdAt)}</Text>
         </View>
     );
 }
@@ -137,6 +116,11 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 15,
         paddingHorizontal: 15
+    },
+    city: {
+        fontSize: 15,
+        paddingHorizontal: 15,
+        paddingBottom: 15
     },
     image: {
         aspectRatio: 1,
