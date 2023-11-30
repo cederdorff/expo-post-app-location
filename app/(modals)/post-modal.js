@@ -14,7 +14,6 @@ import {
     View
 } from "react-native";
 import { auth } from "../../firebase-config";
-import { set } from "react-native-reanimated";
 
 export default function PostModal() {
     const { id } = useLocalSearchParams();
