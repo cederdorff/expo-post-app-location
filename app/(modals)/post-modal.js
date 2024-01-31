@@ -22,14 +22,11 @@ export default function PostModal() {
     const [location, setLocation] = useState({});
     const router = useRouter();
 
-    const API_URL =
-        "https://expo-post-app-default-rtdb.firebaseio.com";
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         async function getPost() {
-            const response = await fetch(
-                `${API_URL}/posts/${id}.json`
-            );
+            const response = await fetch(`${API_URL}/posts/${id}.json`);
             const data = await response.json();
             setImage(data.image);
             setCaption(data.caption);
@@ -44,9 +41,7 @@ export default function PostModal() {
             const { status } =
                 await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
-                setErrorMsg(
-                    "Permission to access location was denied"
-                );
+                setErrorMsg("Permission to access location was denied");
                 return;
             }
         }
@@ -68,7 +63,11 @@ export default function PostModal() {
     }
 
     async function updatePost() {
-        const post = { caption: caption, image: image };
+        const post = {
+            caption: caption,
+            image: image,
+            location: location
+        };
         const response = await fetch(`${API_URL}/posts/${id}.json`, {
             method: "PATCH",
             body: JSON.stringify(post)
@@ -79,8 +78,7 @@ export default function PostModal() {
     }
 
     async function getLocation() {
-        const currentLocation =
-            await Location.getCurrentPositionAsync();
+        const currentLocation = await Location.getCurrentPositionAsync();
         const API_KEY = "d56227e5719542ec8aabe5c0bd2d502d";
         const response = await fetch(
             `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=${API_KEY}`
@@ -124,8 +122,7 @@ export default function PostModal() {
         });
 
         if (!result.canceled) {
-            const base64 =
-                "data:image/jpeg;base64," + result.assets[0].base64;
+            const base64 = "data:image/jpeg;base64," + result.assets[0].base64;
             setImage(base64);
         }
     }
@@ -152,9 +149,7 @@ export default function PostModal() {
                 }}
             />
             <KeyboardAvoidingView
-                behavior={
-                    Platform.OS === "ios" ? "padding" : "height"
-                }>
+                behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <Text style={styles.label}>Image</Text>
                 <TouchableOpacity onPress={chooseImage}>
                     <Image
