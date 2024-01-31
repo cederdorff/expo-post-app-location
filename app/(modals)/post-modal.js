@@ -65,8 +65,7 @@ export default function PostModal() {
     async function updatePost() {
         const post = {
             caption: caption,
-            image: image,
-            location: location
+            image: image
         };
         const response = await fetch(`${API_URL}/posts/${id}.json`, {
             method: "PATCH",
